@@ -42,11 +42,11 @@
 <meta property="og:title" content="NCTF2023">
 <meta property="og:url" content="https://cainyzb.github.io/2023/12/23/NCTF2023/index.html">
 <meta property="og:site_name" content="Cain&#39;s Blog">
-<meta property="og:description" content="NCTF 2023Reverse中文编程1运行程序了解大致流程，IDA找到关键字符串  x交叉引用找到关键函数  使用z3进行规约求解得到int 1234567891011121314151617181920212223242526272829303132333435363738394041from z3 import *v1 &#x3D; Real(&#x27;v1&#x27;)v2 &#x3D; Real(&amp;#x">
+<meta property="og:description" content="Reverse中文编程1运行程序了解大致流程，IDA找到关键字符串  x交叉引用找到关键函数  使用z3进行规约求解得到int 1234567891011121314151617181920212223242526272829303132333435363738394041from z3 import *v1 &#x3D; Real(&#x27;v1&#x27;)v2 &#x3D; Real(&#x27;v2&amp;#x2">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png">
 <meta property="article:published_time" content="2023-12-23T07:50:55.000Z">
-<meta property="article:modified_time" content="2023-12-23T08:33:45.903Z">
+<meta property="article:modified_time" content="2023-12-23T08:35:52.873Z">
 <meta property="article:author" content="CainYzb">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png">
@@ -1745,7 +1745,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     debug: "env",
     cdn: {"js":{"app":"/js/app.js","parallax":"/js/plugins/parallax.js","rightMenu":"/js/plugins/rightMenu.js","rightMenus":"/js/plugins/rightMenus.js","sites":"/js/plugins/tags/sites.js","friends":"/js/plugins/tags/friends.js","contributors":"/js/plugins/tags/contributors.js","search":"/js/search/hexo.js"},"css":{"style":"/css/style.css"}},
     default: {"avatar":"https://unpkg.com/volantis-static@0.0.1654736714924/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1654736714924/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1654736714924/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1654736714924/media/placeholder/image/2659360.svg"},
-    lastupdate: new Date(1703320518255),
+    lastupdate: new Date(1708853307852),
     sidebar: {
       for_page: ["blogger","category","tagcloud","donate"],
       for_post: ["toc"],
@@ -2581,7 +2581,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
   <div id="layoutHelper-page-plugins"></div>
   <div id="post-body" itemprop="articleBody">
-    <h1 id="NCTF-2023"><a href="#NCTF-2023" class="headerlink" title="NCTF 2023"></a>NCTF 2023</h1><h2 id="Reverse"><a href="#Reverse" class="headerlink" title="Reverse"></a>Reverse</h2><h3 id="中文编程1"><a href="#中文编程1" class="headerlink" title="中文编程1"></a>中文编程1</h3><p>运行程序了解大致流程，IDA找到关键字符串</p>
+    <h1 id="Reverse"><a href="#Reverse" class="headerlink" title="Reverse"></a>Reverse</h1><h2 id="中文编程1"><a href="#中文编程1" class="headerlink" title="中文编程1"></a>中文编程1</h2><p>运行程序了解大致流程，IDA找到关键字符串</p>
 <p><img src="/2023/12/23/NCTF2023/image-20231223160236897.png" class="lazyload" data-srcset="/2023/12/23/NCTF2023/image-20231223160236897.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="image-20231223160236897"></p>
 <p>x交叉引用找到关键函数</p>
 <p><img src="/2023/12/23/NCTF2023/image-20231223160300790.png" class="lazyload" data-srcset="/2023/12/23/NCTF2023/image-20231223160300790.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="image-20231223160300790"></p>
@@ -2591,9 +2591,9 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 <p>按照大小端序及转换为char组</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">result = &#123;&#x27;v8&#x27;: 1664170285,</span><br><span class="line"> &#x27;v1&#x27;: 1734437990,</span><br><span class="line"> &#x27;v6&#x27;: 761606705,</span><br><span class="line"> &#x27;v2&#x27;: 825569659,</span><br><span class="line"> &#x27;v10&#x27;: 959592504,</span><br><span class="line"> &#x27;v4&#x27;: 1700867381,</span><br><span class="line"> &#x27;v11&#x27;: 32048,</span><br><span class="line"> &#x27;v3&#x27;: 858875191,</span><br><span class="line"> &#x27;v5&#x27;: 875389793,</span><br><span class="line"> &#x27;v7&#x27;: 879060537,</span><br><span class="line"> &#x27;v9&#x27;: 1664233572&#125;</span><br><span class="line"></span><br><span class="line">from Crypto.Util.number import long_to_bytes</span><br><span class="line"></span><br><span class="line">for i in [&#x27;v1&#x27;,&#x27;v2&#x27;,&#x27;v3&#x27;,&#x27;v4&#x27;,&#x27;v5&#x27;,&#x27;v6&#x27;,&#x27;v7&#x27;,&#x27;v8&#x27;,&#x27;v9&#x27;,&#x27;v10&#x27;,&#x27;v11&#x27;]:</span><br><span class="line">    print(long_to_bytes(result[i]).decode()[::-1],end=&#x27;&#x27;)</span><br></pre></td></tr></table></figure>
 
-<h2 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h2><h3 id="Jump-For-Signin"><a href="#Jump-For-Signin" class="headerlink" title="Jump For Signin"></a>Jump For Signin</h3><p>根据题目提示按下空格天上就会掉下flag，稳准狠截图即可</p>
+<h1 id="Misc"><a href="#Misc" class="headerlink" title="Misc"></a>Misc</h1><h2 id="Jump-For-Signin"><a href="#Jump-For-Signin" class="headerlink" title="Jump For Signin"></a>Jump For Signin</h2><p>根据题目提示按下空格天上就会掉下flag，稳准狠截图即可</p>
 <p><img src="/2023/12/23/NCTF2023/image-20231223155546551.png" class="lazyload" data-srcset="/2023/12/23/NCTF2023/image-20231223155546551.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="image-20231223155546551"></p>
-<h3 id="Jump-For-Flag"><a href="#Jump-For-Flag" class="headerlink" title="Jump For Flag"></a>Jump For Flag</h3><p>Unity的逆向通常在资源文件的<em><strong>Assembly-CSharp.dll</strong></em>文件中，使用dnspy进行逆向</p>
+<h2 id="Jump-For-Flag"><a href="#Jump-For-Flag" class="headerlink" title="Jump For Flag"></a>Jump For Flag</h2><p>Unity的逆向通常在资源文件的<em><strong>Assembly-CSharp.dll</strong></em>文件中，使用dnspy进行逆向</p>
 <p>通过游戏以及联想上一道题，找到Jump方法</p>
 <p><img src="/2023/12/23/NCTF2023/image-20231223155745432.png" class="lazyload" data-srcset="/2023/12/23/NCTF2023/image-20231223155745432.png" srcset="data:image/gif;base64,R0lGODlhAQABAIAAAP///////yH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" alt="image-20231223155745432"></p>
 <p>看到其中通过cubes_all值调用了makecube方法，因此跟进查看cubes_all数据</p>
@@ -2625,7 +2625,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateModified" datetime="2023-12-23T16:33:45+08:00">
+          <div class="new-meta-item date" itemprop="dateModified" datetime="2023-12-23T16:35:52+08:00">
   <a class='notlink'>
     <i class="fa-solid fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2023年12月23日</p>
@@ -2702,6 +2702,17 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
   
 
   
+    <div class="prev-next">
+      
+        <a class='prev' href='/2024/01/18/2023%E5%B9%B4%E7%BB%88%E6%80%BB%E7%BB%93/'>
+          <p class='title'><i class="fa-solid fa-chevron-left" aria-hidden="true"></i>2023年12月23日</p>
+          <p class='content'>Cainの2023 Summary”回首往事的时候，不因虚度年华而悔恨，也不因碌碌无为而羞耻“
+时逢破壳日，正好来补个档。以时间线的形式记录下我在2023年的点点滴滴，希望能2024能生活在生活...</p>
+        </a>
+      
+      
+    </div>
+  
   <!-- Custom Files postEnd begin-->
   
   <!-- Custom Files postEnd end-->
@@ -2755,7 +2766,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Reverse"><span class="toc-text">Reverse</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%AD%E6%96%87%E7%BC%96%E7%A8%8B1"><span class="toc-text">中文编程1</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Misc"><span class="toc-text">Misc</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Jump-For-Signin"><span class="toc-text">Jump For Signin</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Jump-For-Flag"><span class="toc-text">Jump For Flag</span></a></li></ol></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%AD%E6%96%87%E7%BC%96%E7%A8%8B1"><span class="toc-text">中文编程1</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Jump-For-Signin"><span class="toc-text">Jump For Signin</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Jump-For-Flag"><span class="toc-text">Jump For Flag</span></a></li></ol>
     </div>
   </section>
 
@@ -3302,7 +3313,7 @@ if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMo
 </script>
 
 
-  <script type="application/ld+json">[{"@context":"http://schema.org","@type":"Organization","name":"Cain's Blog","url":"https://cainyzb.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"http://schema.org","@type":"Person","name":"CainYzb","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://cainyzb.github.io/","sameAs":["https://github.com/volantis-x"],"description":"Cain's Blog"},{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://cainyzb.github.io/","name":"Cain's Blog"}},{"@type":"ListItem","position":3,"item":{"@id":"https://cainyzb.github.io/2023/12/23/NCTF2023/","name":"NCTF2023"}}]},{"@context":"http://schema.org","@type":"WebSite","name":"Cain's Blog","url":"https://cainyzb.github.io/","keywords":null,"description":"Cain's Blog","author":{"@type":"Person","name":"CainYzb","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://cainyzb.github.io/","description":"Cain's Blog"},"publisher":{"@type":"Organization","name":"Cain's Blog","url":"https://cainyzb.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://cainyzb.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"http://schema.org","@type":"BlogPosting","headline":"NCTF2023","description":"Cain's Blog","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://cainyzb.github.io/2023/12/23/NCTF2023/"},"author":{"@type":"Person","name":"CainYzb","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://cainyzb.github.io/"},"publisher":{"@type":"Organization","name":"Cain's Blog","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://cainyzb.github.io/2023/12/23/NCTF2023/","wordCount":0,"datePublished":"2023-12-23T07:50:55.000Z","dateModified":"2023-12-23T08:33:45.903Z","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+  <script type="application/ld+json">[{"@context":"http://schema.org","@type":"Organization","name":"Cain's Blog","url":"https://cainyzb.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"http://schema.org","@type":"Person","name":"CainYzb","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://cainyzb.github.io/","sameAs":["https://github.com/volantis-x"],"description":"Cain's Blog"},{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://cainyzb.github.io/","name":"Cain's Blog"}},{"@type":"ListItem","position":3,"item":{"@id":"https://cainyzb.github.io/2023/12/23/NCTF2023/","name":"NCTF2023"}}]},{"@context":"http://schema.org","@type":"WebSite","name":"Cain's Blog","url":"https://cainyzb.github.io/","keywords":null,"description":"Cain's Blog","author":{"@type":"Person","name":"CainYzb","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://cainyzb.github.io/","description":"Cain's Blog"},"publisher":{"@type":"Organization","name":"Cain's Blog","url":"https://cainyzb.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://cainyzb.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"http://schema.org","@type":"BlogPosting","headline":"NCTF2023","description":"Cain's Blog","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://cainyzb.github.io/2023/12/23/NCTF2023/"},"author":{"@type":"Person","name":"CainYzb","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://cainyzb.github.io/"},"publisher":{"@type":"Organization","name":"Cain's Blog","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://cainyzb.github.io/2023/12/23/NCTF2023/","wordCount":0,"datePublished":"2023-12-23T07:50:55.000Z","dateModified":"2023-12-23T08:35:52.873Z","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
 
 
 
